@@ -1,0 +1,45 @@
+﻿@model HvoyaApplication.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Вхід";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="text-center">Вхід</h1>
+            <hr />
+
+            @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+            {
+                <div class="alert alert-danger text-center">
+                    @ViewBag.ErrorMessage
+                </div>
+            }
+
+            <form asp-action="Login" method="post" class="mt-4">
+                <div class="form-group">
+                    <label for="Email">Електронна пошта</label>
+                    <input asp-for="Email" class="form-control" id="Email" placeholder="Введіть вашу пошту" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-3">
+                    <label for="Password">Пароль</label>
+                    <input asp-for="Password" type="password" class="form-control" id="Password" placeholder="Введіть ваш пароль" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="form-check mt-3">
+                    <input asp-for="RememberMe" class="form-check-input" id="RememberMe" />
+                    <label class="form-check-label" for="RememberMe">Запам'ятати мене</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block mt-4">Увійти</button>
+            </form>
+
+            <div class="text-center mt-4">
+                <p>Ще не маєте облікового запису? <a href="@Url.Action("Register", "Account")">Зареєструватись</a></p>
+            </div>
+        </div>
+    </div>
+</div>

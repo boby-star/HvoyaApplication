@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - HvoyaApplication</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/HvoyaApplication.styles.css" asp-append-version="true" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <header class="bg-primary-custom">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="@Url.Action("Index", "Home")">
+                    <img src="/img/hvoya.jpg" alt="HVOYA" class="me-2" style="height: 40px;" />
+                    <span>HVOYA</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="@Url.Action("Index", "Home")">Головна</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="@Url.Action("Index", "ShoppingCart")">Кошик</a>
+                        </li>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-white" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Адмін-панель
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminMenu">
+                                    <li>
+                                        <a class="dropdown-item" href="@Url.Action("Index", "Admin")">Головна адмін-панелі</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="@Url.Action("ManageDesserts", "Admin")">Керування десертами</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="@Url.Action("ManageOrders", "Admin")">Керування замовленнями</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="@Url.Action("ManageUsers", "Admin")">Керування користувачами</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                    </ul>                    
+                    <ul class="navbar-nav ms-3">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <form asp-action="Logout" asp-controller="Account" method="post" asp-antiforgery="true">
+                                    <button type="submit" class="btn btn-outline-light rounded-pill">Вийти</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a href="@Url.Action("Login", "Account")" class="btn btn-outline-light rounded-pill">Увійти/Зареєструватись</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="bg-dark text-white py-4 mt-auto">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="mb-0">© 2024 HVOYA</p>
+                    <p class="mb-0">Пошта: <a href="mailto:example@gmail.com" class="text-light">example@gmail.com</a></p>
+                </div>
+                <div>
+                    <a href="https://www.instagram.com/hvoya.coffee" target="_blank" class="text-light" style="font-size: 1.5rem;">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

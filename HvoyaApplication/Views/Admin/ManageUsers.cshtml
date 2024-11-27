@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@model IEnumerable<HvoyaApplication.Models.AppUser>
+@inject UserManager<AppUser> UserManager
+@{
+    ViewData["Title"] = "Керування користувачами";
+}
+
+<div class="container mt-5">
+    <h2>@ViewData["Title"]</h2>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+    <table class="table table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>Ім'я</th>
+                <th>Email</th>
+                <th>Ролі</th>
+                <th>Дії</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                var roles = await UserManager.GetRolesAsync(user);
+                <tr>
+                    <td>@user.FullName</td>
+                    <td>@user.Email</td>
+                    <td>@string.Join(", ", roles)</td>
+                    <td>
+                        <form asp-action="DeleteUser" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@user.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Ви впевнені, що хочете видалити цього користувача?');">Видалити</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

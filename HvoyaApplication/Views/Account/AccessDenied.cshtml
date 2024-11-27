@@ -1,0 +1,35 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Відмовлено у доступі";
+}
+
+<div class="text-center mt-5">
+    <h1 class="display-4 text-danger">Доступ заборонено</h1>
+    <p class="lead">Вибачте, але ви не маєте доступу до цієї сторінки</p>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <p class="text-muted">
+            Ви увійшли як: <strong>@User.Identity.Name</strong>
+        </p>
+    }
+    else
+    {
+        <p class="text-muted">Ви не увійшли в систему. Будь ласка, увійдіть для продовження</p>
+    }
+
+    <div class="mt-4">
+        <a href="@Url.Action("Index", "Home")" class="btn btn-primary btn-lg">
+            Повернутись на головну сторінку
+        </a>
+
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <a href="@Url.Action("Login", "Account")" class="btn btn-secondary btn-lg ml-2">
+                Увійти
+            </a>
+        }
+    </div>
+</div>

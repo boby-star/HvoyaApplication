@@ -1,0 +1,56 @@
+﻿@model IEnumerable<HvoyaApplication.Models.Order>
+@{
+    ViewData["Title"] = "Обробка замовлень";
+}
+
+<div class="container mt-5">
+    <h2>@ViewData["Title"]</h2>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+    <table class="table table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>Ім'я</th>
+                <th>Адреса</th>
+                <th>Телефон</th>
+                <th>Дата</th>
+                <th>Сума</th>
+                <th>Статус</th>
+                <th>Дії</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.FullName</td>
+                    <td>@order.Address</td>
+                    <td>@order.PhoneNumber</td>
+                    <td>@order.OrderDate.ToString("g")</td>
+                    <td>@order.OrderTotal.ToString("C")</td>
+                    <td>
+                        <form asp-action="UpdateOrderStatus" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="orderId" value="@order.OrderId" />
+                            <select name="newStatus" class="form-select form-select-sm d-inline w-auto">
+                                <option value="Очікує замовлення" selected="@(order.Status == "Очікує замовлення")">Очікує замовлення</option>
+                                <option value="Виконано" selected="@(order.Status == "Виконано")">Виконано</option>
+                                <option value="Скасовано" selected="@(order.Status == "Скасовано")">Скасовано</option>
+                            </select>
+                            <button type="submit" class="btn btn-primary btn-sm">Зберегти</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-action="DeleteOrder" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="orderId" value="@order.OrderId" />
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Ви впевнені, що хочете видалити це замовлення?');">Видалити</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

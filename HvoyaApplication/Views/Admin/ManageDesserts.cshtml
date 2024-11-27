@@ -1,0 +1,56 @@
+﻿@model IEnumerable<HvoyaApplication.Models.Dessert>
+@{
+    ViewData["Title"] = "Керування десертами";
+}
+
+<div class="container mt-5">
+    <h2>@ViewData["Title"]</h2>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+    <a href="@Url.Action("AddDessert", "Admin")" class="btn btn-success mb-3">Додати новий десерт</a>
+    <table class="table table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>Зображення</th>
+                <th>Назва</th>
+                <th>Опис</th>
+                <th>Категорія</th>
+                <th>Ціна</th>
+                <th>Доступність</th>
+                <th>Дії</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var dessert in Model)
+            {
+                <tr>
+                    <td>
+                        @if (!string.IsNullOrEmpty(dessert.ImageUrl))
+                        {
+                            <img src="@dessert.ImageUrl" alt="@dessert.Name" class="img-thumbnail" style="max-width: 100px;" />
+                        }
+                        else
+                        {
+                            <span class="text-muted">Немає зображення</span>
+                        }
+                    </td>
+                    <td>@dessert.Name</td>
+                    <td>@dessert.Description</td>
+                    <td>@dessert.Category?.CategoryName</td>
+                    <td>@dessert.Price.ToString("C")</td>
+                    <td>@(dessert.IsAvailable ? "Доступний" : "Недоступний")</td>
+                    <td>
+                        <a href="@Url.Action("EditDessert", "Admin", new { id = dessert.DessertId })" class="btn btn-primary btn-sm">Редагувати</a>
+                        <form asp-action="DeleteDessert" asp-controller="Admin" method="post" style="display: inline;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@dessert.DessertId" />
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Ви впевнені, що хочете видалити цей десерт?');">Видалити</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,171 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    background-color: #f8fdf5;
+}
+
+.bg-primary-custom {
+    background-color: #1c4e2b;
+}
+
+.logo {
+    width: 50px;
+    height: auto;
+}
+
+.nav-link {
+    font-size: 1rem;
+    margin-left: 15px;
+}
+
+.navbar-toggler-icon {
+    background-color: white;
+    border-radius: 50%;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+    table thead th {
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        letter-spacing: 0.05rem;
+    }
+
+.btn {
+    transition: all 0.3s ease;
+}
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+.alert {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    font-weight: bold;
+    transition: all 0,3 ease;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+    box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+}
+
+h1 {
+    font-family: 'Georgia', serif;
+    letter-spacing: 1.2px;
+}
+
+.card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 128, 0, 0.2);
+    }
+
+.btn-outline-success {
+    border: 2px solid #28a745;
+    transition: all 0.3s ease;
+}
+
+    .btn-outline-success:hover {
+        background-color: #28a745;
+        color: #fff;
+    }
+
+.card-title {
+    font-weight: bold;
+}
+
+.img-fluid {
+    transition: transform 0.3s ease;
+}
+
+    .img-fluid:hover {
+        transform: scale(1.05);
+    }
+
+.btn-outline-success {
+    border: 2px solid #28a745;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-success:hover {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.list-group-item {
+    transition: box-shadow 0.2s ease;
+}
+
+.list-group-item:hover {
+    box-shadow: 0 8px 15px rgba(0, 128, 0, 0.1);
+}
+
+.navbar-brand img {
+    max-height: 40px;
+}
+
+.btn-outline-light {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-outline-light:hover {
+    background-color: white;
+    color: #28a745;
+}
+
+footer a:hover {
+    color: #28a745;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+footer {
+    background-color: #1c1c1c;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: auto;
+}

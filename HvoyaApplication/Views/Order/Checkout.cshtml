@@ -1,0 +1,44 @@
+﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@model HvoyaApplication.ViewModels.CheckoutViewModel
+
+<div class="container mt-5">
+    <h1 class="text-center">Оформлення замовлення</h1>
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <form asp-action="Checkout" method="post">
+        @Html.AntiForgeryToken()
+
+        <div class="mb-3">
+            <label asp-for="FullName" class="form-label"></label>
+            <input asp-for="FullName" class="form-control" required />
+            <span class="text-danger">
+                @Html.ValidationMessageFor(m => m.FullName)
+            </span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Address" class="form-label"></label>
+            <input asp-for="Address" class="form-control" required />
+            <span class="text-danger">
+                @Html.ValidationMessageFor(m => m.Address)
+            </span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PhoneNumber" class="form-label"></label>
+            <input asp-for="PhoneNumber" class="form-control" required />
+            <span class="text-danger">
+                @Html.ValidationMessageFor(m => m.PhoneNumber)
+            </span>
+        </div>
+
+        @await Html.PartialAsync("_ShoppingCartSummary", (HvoyaApplication.Models.ShoppingCart)ViewBag.ShoppingCart)
+
+        <div class="text-end mt-4">
+            <button type="submit" class="btn btn-success btn-lg">Підтвердити замовлення</button>
+        </div>
+    </form>
+</div>

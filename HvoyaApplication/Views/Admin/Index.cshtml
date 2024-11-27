@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Адмін-панель";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center">Адмін-панель</h1>
+    <div class="row mt-4 justify-content-center">
+        <div class="col-md-5">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Керування десертами</h5>
+                    <p class="card-text">Додайте, редагуйте або видаляйте десерти.</p>
+                    <a href="@Url.Action("ManageDesserts", "Admin")" class="btn btn-primary">Перейти</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Обробка замовлень</h5>
+                    <p class="card-text">Переглядайте та керуйте замовленнями клієнтів.</p>
+                    <a href="@Url.Action("ManageOrders", "Admin")" class="btn btn-success">Перейти</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="card text-center shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Керування користувачами</h5>
+                    <p class="card-text">Сторінка для управління над користувачами.</p>
+                    <a href="@Url.Action("ManageUsers", "Admin")" class="btn btn-primary">Перейти</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

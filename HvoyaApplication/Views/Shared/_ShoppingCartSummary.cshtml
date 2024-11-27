@@ -1,0 +1,28 @@
+﻿@model HvoyaApplication.Models.ShoppingCart
+
+<h4>Ваше замовлення</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Десерт</th>
+            <th>Ціна</th>
+            <th>Кількість</th>
+            <th>Сума</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ShoppingCartItems)
+        {
+            <tr>
+                <td>@item.Dessert.Name</td>
+                <td>@item.Dessert.Price</td>
+                <td>@item.Quantity</td>
+                <td>@(item.Dessert.Price * item.Quantity)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="text-end">
+    <h4>Загальна сума: @Model.ShoppingCartItems.Sum(i => i.Dessert.Price * i.Quantity)</h4>
+</div>

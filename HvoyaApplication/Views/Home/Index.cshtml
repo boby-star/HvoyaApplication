@@ -1,0 +1,31 @@
+﻿@model HvoyaApplication.ViewModels.HomeViewModel
+
+@{
+    ViewData["Title"] = "Головна сторінка";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center text-success fw-bold">Ласкаво просимо до HVOYA!</h1>
+    <p class="lead text-center text-muted">Оберіть свій улюблений десерт і відчуйте гармонію природи</p>
+
+    <div class="row">
+        @foreach (var dessert in Model.Desserts)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm border-0 h-100">
+                    <img src="@dessert.ImageUrl" class="card-img-top rounded" alt="@dessert.Name">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-success">@dessert.Name</h5>
+                        <p class="card-text text-muted">@dessert.Description</p>
+                        <div class="mt-auto">
+                            <a href="@Url.Action("Details", "Home", new { id = dessert.DessertId })" class="btn btn-outline-success w-100 rounded-pill">
+                                Детальніше
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
