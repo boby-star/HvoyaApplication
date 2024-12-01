@@ -5,6 +5,7 @@ using HvoyaApplication.ViewModels;
 using HvoyaApplication.Models.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
+using HvoyaApplication.Utilities;
 
 namespace HvoyaApplication.Controllers
 {
@@ -31,7 +32,10 @@ namespace HvoyaApplication.Controllers
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
+            {
+                Logger.Log(nameof(AccountController), nameof(Login), "Anonim", "Attempt to log in with incorrect model data");
                 return View(model);
+            }                          
 
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
@@ -43,7 +47,11 @@ namespace HvoyaApplication.Controllers
             var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
 
             if (result.Succeeded)
+            {
+                Logger.Log(nameof(AccountController), nameof(Login), user.Email, "Successed login for user");
                 return RedirectToAction("Index", "Home");
+            }
+               
 
             ModelState.AddModelError("", "Невірний логін або пароль");
             return View(model);

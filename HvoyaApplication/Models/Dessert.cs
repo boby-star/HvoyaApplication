@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using HvoyaApplication.Utilities;
 
 namespace HvoyaApplication.Models
 {
@@ -15,7 +16,7 @@ namespace HvoyaApplication.Models
         public string Description { get; set; }
 
         [Required(ErrorMessage = "Ціна є обов'язковою")]
-        [Range(1, int.MaxValue, ErrorMessage = "Ціна повинна бути більшою за 0")]
+        [ValidatePositivePrice(ErrorMessage = "Ціна повинна бути більше 0.")]
         [Display(Name = "Ціна")]
         public int Price { get; set; }
 
