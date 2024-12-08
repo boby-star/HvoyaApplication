@@ -1,31 +1,41 @@
 ﻿@model HvoyaApplication.ViewModels.HomeViewModel
-
-@{
-    ViewData["Title"] = "Головна сторінка";
-}
+@using Microsoft.Extensions.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 <div class="container mt-5">
-    <h1 class="text-center text-success fw-bold">Ласкаво просимо до HVOYA!</h1>
-    <p class="lead text-center text-muted">Оберіть свій улюблений десерт і відчуйте гармонію природи</p>
+    <h1 class="text-center">@Localizer["Welcome to our application!"]</h1>
+    <p class="lead text-center">@Localizer["Choose your favorite dessert and enjoy."]</p>
 
-    <div class="row">
-        @foreach (var dessert in Model.Desserts)
-        {
-            <div class="col-md-4 mb-4">
-                <div class="card shadow-sm border-0 h-100">
-                    <img src="@dessert.ImageUrl" class="card-img-top rounded" alt="@dessert.Name">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title text-success">@dessert.Name</h5>
-                        <p class="card-text text-muted">@dessert.Description</p>
-                        <div class="mt-auto">
-                            <a href="@Url.Action("Details", "Home", new { id = dessert.DessertId })" class="btn btn-outline-success w-100 rounded-pill">
-                                Детальніше
+    <form asp-action="Index" method="get" class="d-flex mb-4">
+        <input type="text" name="search" class="form-control" placeholder="@Localizer["Search desserts..."]">
+        <button type="submit" class="btn btn-outline-success">@Localizer["Search"]</button>
+    </form>
+
+    @if (Model.Desserts.Any())
+    {
+        <div class="row">
+            @foreach (var dessert in Model.Desserts)
+            {
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="@dessert.ImageUrl" alt="@dessert.Name" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">@dessert.Name</h5>
+                            <p class="card-text">@dessert.Description</p>
+                            <a href="@Url.Action("Details", "Home", new { id = dessert.DessertId })" class="btn btn-outline-success">
+                                @Localizer["Learn More"]
                             </a>
                         </div>
                     </div>
                 </div>
-            </div>
-        }
-    </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="text-center">
+            <h3>@Localizer["Nothing found."]</h3>
+        </div>
+    }
 </div>
-

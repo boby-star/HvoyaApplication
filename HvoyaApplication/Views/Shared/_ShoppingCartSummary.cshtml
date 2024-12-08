@@ -1,13 +1,14 @@
 ﻿@model HvoyaApplication.Models.ShoppingCart
+@using Microsoft.Extensions.Localization
 
-<h4>Ваше замовлення</h4>
+<h4>@Localizer["Your Order"]</h4>
 <table class="table">
     <thead>
         <tr>
-            <th>Десерт</th>
-            <th>Ціна</th>
-            <th>Кількість</th>
-            <th>Сума</th>
+            <th>@Localizer["Dessert"]</th>
+            <th>@Localizer["Price"]</th>
+            <th>@Localizer["Quantity"]</th>
+            <th>@Localizer["Total Amount"]</th>
         </tr>
     </thead>
     <tbody>
@@ -15,14 +16,14 @@
         {
             <tr>
                 <td>@item.Dessert.Name</td>
-                <td>@item.Dessert.Price</td>
+                <td>@item.Dessert.Price.ToString("C")</td>
                 <td>@item.Quantity</td>
-                <td>@(item.Dessert.Price * item.Quantity)</td>
+                <td>@(item.Dessert.Price * item.Quantity).ToString("C")</td>
             </tr>
         }
     </tbody>
 </table>
 
 <div class="text-end">
-    <h4>Загальна сума: @Model.ShoppingCartItems.Sum(i => i.Dessert.Price * i.Quantity)</h4>
+    <h4>@Localizer["Total Amount"]: @(Model.ShoppingCartItems.Sum(i => i.Dessert.Price * i.Quantity).ToString("C"))</h4>
 </div>

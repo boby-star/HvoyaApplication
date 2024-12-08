@@ -8,6 +8,7 @@ namespace HvoyaApplication.ViewModels
     {
         public IEnumerable<DessertDetailsViewModel> Desserts { get; set; }
         public string CurrentCategory {  get; set; }
+        public string SearchQuery { get; set; }
 
         public HomeViewModel()
         {

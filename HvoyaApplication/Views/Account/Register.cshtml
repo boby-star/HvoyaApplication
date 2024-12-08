@@ -1,12 +1,17 @@
-﻿@model HvoyaApplication.ViewModels.RegisterViewModel
+﻿@using Microsoft.Extensions.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@model HvoyaApplication.ViewModels.RegisterViewModel
+
 @{
-    ViewData["Title"] = "Реєстрація";
+    ViewData["Title"] = Localizer["RegisterTitle"];
 }
 
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <h1 class="text-center">Реєстрація</h1>
+            <h1 class="text-center">@Localizer["RegisterTitle"]</h1>
             <hr />
 
             @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
@@ -18,34 +23,34 @@
 
             <form asp-action="Register" method="post" class="mt-4">
                 <div class="form-group">
-                    <label for="FullName">Ім'я користувача</label>
-                    <input asp-for="FullName" class="form-control" id="FullName" placeholder="Введіть ваше ім'я" />
+                    <label for="FullName">@Localizer["FullName"]</label>
+                    <input asp-for="FullName" class="form-control" id="FullName" placeholder="@Localizer["Enter your name"]" />
                     <span asp-validation-for="FullName" class="text-danger"></span>
                 </div>
 
                 <div class="form-group mt-3">
-                    <label for="Email">Електронна пошта</label>
-                    <input asp-for="Email" class="form-control" id="Email" placeholder="Введіть вашу пошту" />
+                    <label for="Email">@Localizer["Email"]</label>
+                    <input asp-for="Email" class="form-control" id="Email" placeholder="@Localizer["Enter your email"]" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
 
                 <div class="form-group mt-3">
-                    <label for="Password">Пароль</label>
-                    <input asp-for="Password" type="password" class="form-control" id="Password" placeholder="Введіть ваш пароль" />
+                    <label for="Password">@Localizer["Password"]</label>
+                    <input asp-for="Password" type="password" class="form-control" id="Password" placeholder="@Localizer["Enter your password"]" />
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
 
                 <div class="form-group mt-3">
-                    <label for="ConfirmPassword">Підтвердження пароля</label>
-                    <input asp-for="ConfirmPassword" type="password" class="form-control" id="ConfirmPassword" placeholder="Повторіть пароль" />
+                    <label for="ConfirmPassword">@Localizer["ConfirmPassword"]</label>
+                    <input asp-for="ConfirmPassword" type="password" class="form-control" id="ConfirmPassword" placeholder="@Localizer["Repeat your password"]" />
                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-block mt-4">Зареєструватись</button>
+                <button type="submit" class="btn btn-primary btn-block mt-4">@Localizer["RegisterButton"]</button>
             </form>
 
             <div class="text-center mt-4">
-                <p>Вже маєте обліковий запис? <a href="@Url.Action("Login", "Account")">Увійти</a></p>
+                <p>@Localizer["AlreadyHaveAccount"] <a href="@Url.Action("Login", "Account")">@Localizer["LoginLink"]</a></p>
             </div>
         </div>
     </div>

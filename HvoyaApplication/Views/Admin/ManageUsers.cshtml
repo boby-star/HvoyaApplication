@@ -1,13 +1,15 @@
 ﻿@using Microsoft.AspNetCore.Identity
-
+@using Microsoft.Extensions.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @model IEnumerable<HvoyaApplication.Models.AppUser>
 @inject UserManager<AppUser> UserManager
 @{
-    ViewData["Title"] = "Керування користувачами";
+    ViewData["Title"] = Localizer["ManageUsers"];
 }
 
 <div class="container mt-5">
-    <h2>@ViewData["Title"]</h2>
+    <h2>@Localizer["ManageUsers"]</h2>
     @if (TempData["SuccessMessage"] != null)
     {
         <div class="alert alert-success">@TempData["SuccessMessage"]</div>
@@ -19,10 +21,10 @@
     <table class="table table-bordered table-hover">
         <thead class="table-light">
             <tr>
-                <th>Ім'я</th>
-                <th>Email</th>
-                <th>Ролі</th>
-                <th>Дії</th>
+                <th>@Localizer["FullName"]</th>
+                <th>@Localizer["Email"]</th>
+                <th>@Localizer["Roles"]</th>
+                <th>@Localizer["Actions"]</th>
             </tr>
         </thead>
         <tbody>
@@ -37,7 +39,9 @@
                         <form asp-action="DeleteUser" method="post" class="d-inline">
                             @Html.AntiForgeryToken()
                             <input type="hidden" name="id" value="@user.Id" />
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Ви впевнені, що хочете видалити цього користувача?');">Видалити</button>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('@Localizer["AreYouSureDeleteUser"]');">
+                                @Localizer["Delete"]
+                            </button>
                         </form>
                     </td>
                 </tr>

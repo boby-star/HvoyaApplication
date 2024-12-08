@@ -2,7 +2,9 @@
 using HvoyaApplication.Models.Interfaces;
 using HvoyaApplication.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
@@ -25,9 +27,20 @@ namespace HvoyaApplication.Controllers
             _reviewRepository = reviewRepository;
         }
 
-        public async Task<IActionResult> Index(string category)
+        public async Task<IActionResult> Index(string category, string search)
         {
             var desserts = await _dessertRepository.GetAllDessertsAsync();
+
+            if (!string.IsNullOrEmpty(category) && category != "Всі категорії")
+            {
+                desserts = desserts.Where(d => d.Category.CategoryName == category);
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                desserts = desserts.Where(d => d.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                                                d.Description.Contains(search, StringComparison.OrdinalIgnoreCase));
+            }
 
             var dessertViewModels = desserts.Select(d => new DessertDetailsViewModel
             {
@@ -110,8 +123,8 @@ namespace HvoyaApplication.Controllers
             return View("Index", new HomeViewModel
             {
                 Desserts = dessertViewModels,
-                CurrentCategory = "Результати пошуку"
-            });
+                CurrentCategory = "SearchResults"
+        });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

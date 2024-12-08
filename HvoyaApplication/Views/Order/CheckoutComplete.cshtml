@@ -1,9 +1,13 @@
-﻿@{
-    ViewData["Title"] = "Замовлення оформлено";
+﻿@using Microsoft.Extensions.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Localizer["Order Complete"];
 }
 
-<div class="container mt-5 text-center">
-    <h1 class="text-success">Дякуємо за ваше замовлення!</h1>
-    <p class="lead mt-3">Ваше замовлення успішно оформлено. Ми зв'яжемося з вами найближчим часом.</p>
-    <a href="/" class="btn btn-primary btn-lg mt-4">Повернутись на головну</a>
+<div class="container text-center mt-5">
+    <h1 class="text-success">@Localizer["Thank you for your order!"]</h1>
+    <p class="lead">@Localizer["Your order was successfully placed."]</p>
+    <a href="/" class="btn btn-primary">@Localizer["Return to Home Page"]</a>
 </div>

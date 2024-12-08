@@ -1,12 +1,18 @@
-﻿@model HvoyaApplication.ViewModels.LoginViewModel
+﻿@using Microsoft.Extensions.Localization
+@using Microsoft.Extensions.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@model HvoyaApplication.ViewModels.LoginViewModel
+
 @{
-    ViewData["Title"] = "Вхід";
+    ViewData["Title"] = Localizer["LoginTitle"];
 }
 
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <h1 class="text-center">Вхід</h1>
+            <h1 class="text-center">@Localizer["LoginTitle"]</h1>
             <hr />
 
             @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
@@ -18,27 +24,27 @@
 
             <form asp-action="Login" method="post" class="mt-4">
                 <div class="form-group">
-                    <label for="Email">Електронна пошта</label>
-                    <input asp-for="Email" class="form-control" id="Email" placeholder="Введіть вашу пошту" />
+                    <label for="Email">@Localizer["Email"]</label>
+                    <input asp-for="Email" class="form-control" id="Email" placeholder="@Localizer["Enter your email"]" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
 
                 <div class="form-group mt-3">
-                    <label for="Password">Пароль</label>
-                    <input asp-for="Password" type="password" class="form-control" id="Password" placeholder="Введіть ваш пароль" />
+                    <label for="Password">@Localizer["Password"]</label>
+                    <input asp-for="Password" type="password" class="form-control" id="Password" placeholder="@Localizer["Enter your password"]" />
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
 
                 <div class="form-check mt-3">
                     <input asp-for="RememberMe" class="form-check-input" id="RememberMe" />
-                    <label class="form-check-label" for="RememberMe">Запам'ятати мене</label>
+                    <label class="form-check-label" for="RememberMe">@Localizer["RememberMe"]</label>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-block mt-4">Увійти</button>
+                <button type="submit" class="btn btn-primary btn-block mt-4">@Localizer["LoginButton"]</button>
             </form>
 
             <div class="text-center mt-4">
-                <p>Ще не маєте облікового запису? <a href="@Url.Action("Register", "Account")">Зареєструватись</a></p>
+                <p>@Localizer["NoAccount"] <a href="@Url.Action("Register", "Account")">@Localizer["RegisterLink"]</a></p>
             </div>
         </div>
     </div>

@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using HvoyaApplication.Models.Repositories;
 using Microsoft.EntityFrameworkCore;
 using HvoyaApplication.Data;
+using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Localization;
 
 namespace HvoyaApplication.Controllers
 {
@@ -128,7 +130,7 @@ namespace HvoyaApplication.Controllers
             {
                 _context.Desserts.Update(dessert);
                 await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Десерт успішно оновлено.";
+                TempData["SuccessMessage"] = "DessertAddedSuccessfully";
                 return RedirectToAction("ManageDesserts");
             }
             catch (Exception ex)

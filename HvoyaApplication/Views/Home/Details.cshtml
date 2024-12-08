@@ -1,7 +1,9 @@
 ﻿@model HvoyaApplication.ViewModels.DessertDetailsViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "Деталі десерту";
+    ViewData["Title"] = Localizer["Dessert Details"];
 }
 
 <div class="container mt-5">
@@ -10,70 +12,67 @@
             <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid rounded shadow" />
         </div>
 
-        <!-- опис десерту -->
         <div class="col-md-6">
             <h1 class="mb-4 text-success">@Model.Name</h1>
             <p class="text-muted fs-5">@Model.Description</p>
-            <h3 class="text-success fw-bold">Ціна: @Model.Price</h3>
+            <h3 class="text-success fw-bold">@Localizer["Price"]: @Model.Price</h3>
 
             @if (User.Identity.IsAuthenticated)
             {
                 <form asp-action="AddToCart" asp-controller="ShoppingCart" method="post">
                     <input type="hidden" name="dessertId" value="@Model.DessertId" />
                     <button type="submit" class="btn btn-outline-success btn-lg rounded-pill mt-3">
-                        <i class="bi bi-cart-plus"></i> Додати до кошика
+                        <i class="bi bi-cart-plus"></i> @Localizer["Add to Cart"]
                     </button>
                 </form>
             }
             else
             {
-                <p class="text-muted mt-3">Увійдіть, щоб додати десерт до кошика.</p>
+                <p class="text-muted mt-3">@Localizer["Please log in to add items to your cart."]</p>
                 <a href="/Account/Login" class="btn btn-secondary btn-lg rounded-pill">
-                    <i class="bi bi-person"></i> Увійти
+                    <i class="bi bi-person"></i> @Localizer["Login"]
                 </a>
             }
         </div>
     </div>
 
-    <!-- додавання відгуків -->
     @if (User.Identity.IsAuthenticated)
     {
         <div class="mt-5">
-            <h3 class="text-success">Залишити відгук</h3>
+            <h3 class="text-success">@Localizer["Leave a Review"]</h3>
             <form asp-action="AddReview" asp-controller="Home" method="post" class="shadow p-4 bg-light rounded">
                 <input type="hidden" name="DessertId" value="@Model.DessertId" />
                 <div class="mb-3">
-                    <label for="Comment" class="form-label fw-bold">Ваш відгук</label>
-                    <textarea class="form-control" id="Comment" name="Comment" rows="3" placeholder="Поділіться своїми враженнями" required></textarea>
+                    <label for="Comment" class="form-label fw-bold">@Localizer["Your Review"]</label>
+                    <textarea class="form-control" id="Comment" name="Comment" rows="3" placeholder="@Localizer["Share your impressions"]" required></textarea>
                 </div>
                 <div class="mb-3">
-                    <label for="Rating" class="form-label fw-bold">Оцінка (1-5)</label>
+                    <label for="Rating" class="form-label fw-bold">@Localizer["Rating (1-5)"]</label>
                     <select class="form-select" id="Rating" name="Rating" required>
-                        <option value="">Оберіть оцінку</option>
-                        <option value="1">1 - Дуже погано</option>
-                        <option value="2">2 - Погано</option>
-                        <option value="3">3 - Задовільно</option>
-                        <option value="4">4 - Добре</option>
-                        <option value="5">5 - Відмінно</option>
+                        <option value="">@Localizer["Choose a rating"]</option>
+                        <option value="1">@Localizer["1 - Very Bad"]</option>
+                        <option value="2">@Localizer["2 - Bad"]</option>
+                        <option value="3">@Localizer["3 - Okay"]</option>
+                        <option value="4">@Localizer["4 - Good"]</option>
+                        <option value="5">@Localizer["5 - Excellent"]</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-success btn-lg rounded-pill">
-                    <i class="bi bi-send"></i> Надіслати
+                    <i class="bi bi-send"></i> @Localizer["Send"]
                 </button>
             </form>
         </div>
     }
     else
     {
-        <p class="mt-5 text-muted">Увійдіть, щоб залишити відгук.</p>
+        <p class="mt-5 text-muted">@Localizer["Please log in to leave a review."]</p>
         <a href="/Account/Login" class="btn btn-secondary btn-lg rounded-pill">
-            <i class="bi bi-person"></i> Увійти
+            <i class="bi bi-person"></i> @Localizer["Login"]
         </a>
     }
 
-    <!-- список відгуків -->
     <div class="mt-5">
-        <h2 class="text-success">Відгуки</h2>
+        <h2 class="text-success">@Localizer["Reviews"]</h2>
         @if (Model.Reviews != null && Model.Reviews.Any())
         {
             <ul class="list-group mt-3">
@@ -92,7 +91,7 @@
         else
         {
             <div class="alert alert-secondary mt-3" role="alert">
-                Немає відгуків для цього десерту.
+                @Localizer["No reviews yet for this dessert."]
             </div>
         }
     </div>

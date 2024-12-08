@@ -1,14 +1,13 @@
-﻿@{
-    ViewData["Title"] = "Політика конфіденційності";
+﻿@using Microsoft.Extensions.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Localizer["Privacy Policy"];
 }
 
 <div class="container mt-5">
-    <h1>Політика конфіденційності</h1>
-    <p>
-        Ми дбаємо про вашу конфіденційність. Всі дані, які ви надаєте, використовуються лише для виконання замовлень
-        та покращення нашого сервісу.
-    </p>
-    <p>
-        Якщо у вас виникли запитання, звертайтеся на касу.
-    </p>
+    <h1>@Localizer["Privacy Policy"]</h1>
+    <p>@Localizer["Your privacy is important to us."]</p>
+    <p>@Localizer["We do not share your information with third parties."]</p>
 </div>

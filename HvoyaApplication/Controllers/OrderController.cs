@@ -6,6 +6,8 @@ using HvoyaApplication.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Localization;
 
 namespace HvoyaApplication.Controllers
 {
@@ -34,7 +36,7 @@ namespace HvoyaApplication.Controllers
             var cart = await _shoppingCartRepository.GetActiveCartAsync(user.Id);
             if (cart == null || !cart.ShoppingCartItems.Any())
             {
-                TempData["ErrorMessage"] = "Ваш кошик порожній!";
+                TempData["ErrorMessage"] = "CartIsEmpty";
                 return RedirectToAction("Index", "Home");
             }
 

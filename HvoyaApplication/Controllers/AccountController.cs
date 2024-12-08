@@ -6,6 +6,8 @@ using HvoyaApplication.Models.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
 using HvoyaApplication.Utilities;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Localization;
 
 namespace HvoyaApplication.Controllers
 {
@@ -25,7 +27,24 @@ namespace HvoyaApplication.Controllers
             _userRepository = userRepository;
         }
 
-        public IActionResult Login() => View();
+        [HttpPost]
+        public IActionResult SetLanguage(string culture)
+        {
+            Response.Cookies.Append(
+                ".AspNetCore.Culture",
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
+
+        public IActionResult Login()
+        {
+            ViewBag.Message = "AccessDeniedMessage";
+            return View();
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -40,7 +59,7 @@ namespace HvoyaApplication.Controllers
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                ModelState.AddModelError("", "Невірний логін або пароль");
+                ModelState.AddModelError("", "InvalidLogin");
                 return View(model);
             }
 

@@ -1,25 +1,29 @@
 ﻿@model IEnumerable<HvoyaApplication.Models.Dessert>
+@using Microsoft.Extensions.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Керування десертами";
+    ViewData["Title"] = Localizer["ManageDesserts"];
 }
 
 <div class="container mt-5">
-    <h2>@ViewData["Title"]</h2>
+    <h2>@Localizer["ManageDesserts"]</h2>
     @if (TempData["SuccessMessage"] != null)
     {
         <div class="alert alert-success">@TempData["SuccessMessage"]</div>
     }
-    <a href="@Url.Action("AddDessert", "Admin")" class="btn btn-success mb-3">Додати новий десерт</a>
+    <a href="@Url.Action("AddDessert", "Admin")" class="btn btn-success mb-3">@Localizer["AddDessert"]</a>
     <table class="table table-bordered table-hover">
         <thead class="table-light">
             <tr>
-                <th>Зображення</th>
-                <th>Назва</th>
-                <th>Опис</th>
-                <th>Категорія</th>
-                <th>Ціна</th>
-                <th>Доступність</th>
-                <th>Дії</th>
+                <th>@Localizer["Image"]</th>
+                <th>@Localizer["DessertName"]</th>
+                <th>@Localizer["Description"]</th>
+                <th>@Localizer["Category"]</th>
+                <th>@Localizer["Price"]</th>
+                <th>@Localizer["Availability"]</th>
+                <th>@Localizer["Actions"]</th>
             </tr>
         </thead>
         <tbody>
@@ -33,20 +37,22 @@
                         }
                         else
                         {
-                            <span class="text-muted">Немає зображення</span>
+                            <span class="text-muted">@Localizer["NoImage"]</span>
                         }
                     </td>
                     <td>@dessert.Name</td>
                     <td>@dessert.Description</td>
                     <td>@dessert.Category?.CategoryName</td>
                     <td>@dessert.Price.ToString("C")</td>
-                    <td>@(dessert.IsAvailable ? "Доступний" : "Недоступний")</td>
+                    <td>@(dessert.IsAvailable ? Localizer["Available"] : Localizer["Unavailable"])</td>
                     <td>
-                        <a href="@Url.Action("EditDessert", "Admin", new { id = dessert.DessertId })" class="btn btn-primary btn-sm">Редагувати</a>
+                        <a href="@Url.Action("EditDessert", "Admin", new { id = dessert.DessertId })" class="btn btn-primary btn-sm">@Localizer["Edit"]</a>
                         <form asp-action="DeleteDessert" asp-controller="Admin" method="post" style="display: inline;">
                             @Html.AntiForgeryToken()
                             <input type="hidden" name="id" value="@dessert.DessertId" />
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Ви впевнені, що хочете видалити цей десерт?');">Видалити</button>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('@Localizer["AreYouSureDeleteDessert"]');">
+                                @Localizer["Delete"]
+                            </button>
                         </form>
                     </td>
                 </tr>

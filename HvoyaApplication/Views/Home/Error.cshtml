@@ -1,17 +1,20 @@
 ﻿@model HvoyaApplication.Models.ErrorViewModel
+@using Microsoft.Extensions.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "Помилка";
+    ViewData["Title"] = Localizer["Error"];
 }
 
 <div class="text-center mt-5">
-    <h1 class="text-danger">Щось пішло не так...</h1>
-    <p class="lead">На жаль, сталася помилка при обробці вашого запиту.</p>
+    <h1 class="text-danger">@Localizer["Something went wrong."]</h1>
+    <p class="lead">@Localizer["An unexpected error has occurred."]</p>
 
     @if (Model?.RequestId != null)
     {
-        <p>Ідентифікатор помилки: <strong>@Model.RequestId</strong></p>
+        <p>@Localizer["Error ID"]: <strong>@Model.RequestId</strong></p>
     }
 
-    <a href="@Url.Action("Index", "Home")" class="btn btn-primary mt-3">Повернутися на головну</a>
+    <a href="@Url.Action("Index", "Home")" class="btn btn-primary mt-3">@Localizer["Return to Home Page"]</a>
 </div>

@@ -1,5 +1,10 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@using Microsoft.Extensions.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@using System.Globalization
+
+<!DOCTYPE html>
+<html lang="@(CultureInfo.CurrentUICulture.Name)">
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,55 +21,70 @@
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center" href="@Url.Action("Index", "Home")">
                     <img src="/img/hvoya.jpg" alt="HVOYA" class="me-2" style="height: 40px;" />
-                    <span>HVOYA</span>
+                    <span>@Localizer["HVOYA"]</span>
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="@Localizer["Toggle navigation"]">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                <form asp-controller="Localization" asp-action="SetLanguage" method="post">
+                    <select name="culture" onchange="this.form.submit()">
+                        @if (CultureInfo.CurrentUICulture.Name == "uk-UA")
+                        {
+                            <option value="uk-UA" selected>Українська</option>
+                            <option value="en-US">English</option>
+                        }
+                        else
+                        {
+                            <option value="uk-UA">Українська</option>
+                            <option value="en-US" selected>English</option>
+                        }
+                    </select>
+                    <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+                </form>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="@Url.Action("Index", "Home")">Головна</a>
-                        </li>
+                            <a class="nav-link text-white" href="@Url.Action("Index", "Home")">@Localizer["Home"]</a>
+                        </li>                        
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="@Url.Action("Index", "ShoppingCart")">Кошик</a>
+                            <a class="nav-link text-white" href="@Url.Action("Index", "ShoppingCart")">@Localizer["Cart"]</a>
                         </li>
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-white" href="#" id="adminMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Адмін-панель
+                                    @Localizer["Admin Panel"]
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminMenu">
                                     <li>
-                                        <a class="dropdown-item" href="@Url.Action("Index", "Admin")">Головна адмін-панелі</a>
+                                        <a class="dropdown-item" href="@Url.Action("Index", "Admin")">@Localizer["Admin Panel Home"]</a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="@Url.Action("ManageDesserts", "Admin")">Керування десертами</a>
+                                        <a class="dropdown-item" href="@Url.Action("ManageDesserts", "Admin")">@Localizer["Manage Desserts"]</a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="@Url.Action("ManageOrders", "Admin")">Керування замовленнями</a>
+                                        <a class="dropdown-item" href="@Url.Action("ManageOrders", "Admin")">@Localizer["Manage Orders"]</a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="@Url.Action("ManageUsers", "Admin")">Керування користувачами</a>
+                                        <a class="dropdown-item" href="@Url.Action("ManageUsers", "Admin")">@Localizer["Manage Users"]</a>
                                     </li>
                                 </ul>
                             </li>
                         }
-                    </ul>                    
+                    </ul>
                     <ul class="navbar-nav ms-3">
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
                                 <form asp-action="Logout" asp-controller="Account" method="post" asp-antiforgery="true">
-                                    <button type="submit" class="btn btn-outline-light rounded-pill">Вийти</button>
+                                    <button type="submit" class="btn btn-outline-light rounded-pill">@Localizer["Logout"]</button>
                                 </form>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a href="@Url.Action("Login", "Account")" class="btn btn-outline-light rounded-pill">Увійти/Зареєструватись</a>
+                                <a href="@Url.Action("Login", "Account")" class="btn btn-outline-light rounded-pill">@Localizer["Login/Register"]</a>
                             </li>
                         }
                     </ul>
@@ -84,7 +104,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <p class="mb-0">© 2024 HVOYA</p>
-                    <p class="mb-0">Пошта: <a href="mailto:example@gmail.com" class="text-light">example@gmail.com</a></p>
+                    <p class="mb-0">@Localizer["EmailLabel"] <a href="mailto:example@gmail.com" class="text-light">example@gmail.com</a></p>
                 </div>
                 <div>
                     <a href="https://www.instagram.com/hvoya.coffee" target="_blank" class="text-light" style="font-size: 1.5rem;">

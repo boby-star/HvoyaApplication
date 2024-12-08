@@ -5,6 +5,8 @@ using HvoyaApplication.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Localization;
 
 namespace HvoyaApplication.Controllers
 {
@@ -25,7 +27,7 @@ namespace HvoyaApplication.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId))
             {
-                TempData["Error"] = "Користувач не авторизований!";
+                TempData["Error"] = "UserNotAuthenticated";
                 return RedirectToAction("Index", "Home");
             }
 
@@ -46,7 +48,7 @@ namespace HvoyaApplication.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId))
             {
-                TempData["Error"] = "Користувач не авторизований!";
+                TempData["Error"] = "UserNotAuthenticated";
                 return RedirectToAction("Index", "Home");
             }
 
@@ -54,7 +56,7 @@ namespace HvoyaApplication.Controllers
 
             if (selectedDessert == null)
             {
-                TempData["Error"] = "Десерт не знайдено!";
+                TempData["Error"] = "DessertNotFound";
                 return RedirectToAction("Index", "Home");
             }
 

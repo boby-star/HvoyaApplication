@@ -1,25 +1,26 @@
 ﻿@using System.Security.Claims
 @model HvoyaApplication.ViewModels.ShoppingCartViewModel
+@using Microsoft.Extensions.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 <div class="container mt-5">
-    <h1 class="text-center">Ваш кошик</h1>
+    <h1 class="text-center">@Localizer["Your Cart"]</h1>
 
-    @if (Model.ShoppingCartItems == null || !Model.ShoppingCartItems.Any())
+    @if (!Model.ShoppingCartItems.Any())
     {
-        <div class="alert alert-warning text-center">
-            <h4>Ваш кошик порожній</h4>
-            <a href="@Url.Action("Index", "Home")" class="btn btn-primary btn-lg mt-3">Продовжити покупки</a>
-        </div>
+        <h4>@Localizer["Your cart is empty!"]</h4>
+        <a href="@Url.Action("Index", "Home")" class="btn btn-primary btn-lg mt-3">@Localizer["Continue Shopping"]</a>
     }
     else
     {
         <table class="table table-hover mt-4">
             <thead>
                 <tr>
-                    <th>Десерт</th>
-                    <th>Ціна</th>
-                    <th>Кількість</th>
-                    <th>Загальна сума</th>
+                    <th>@Localizer["Dessert"]</th>
+                    <th>@Localizer["Price"]</th>
+                    <th>@Localizer["Quantity"]</th>
+                    <th>@Localizer["Total Amount"]</th>
                     <th></th>
                 </tr>
             </thead>
@@ -32,10 +33,8 @@
                         <td>@item.Quantity</td>
                         <td>@(item.Dessert.Price * item.Quantity)</td>
                         <td>
-                            <form asp-action="RemoveFromCart" asp-controller="ShoppingCart" method="post">
-                                <input type="hidden" name="UserId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
-                                <input type="hidden" name="dessertId" value="@item.Dessert.DessertId" />
-                                <button class="btn btn-danger btn-sm">Видалити</button>
+                            <form asp-action="RemoveFromCart">
+                                <button class="btn btn-danger btn-sm">@Localizer["Remove"]</button>
                             </form>
                         </td>
                     </tr>
@@ -43,8 +42,8 @@
             </tbody>
         </table>
         <div class="text-end">
-            <h4>Загальна сума: @Model.ShoppingCartTotal</h4>
-            <a href="@Url.Action("Checkout", "Order")" class="btn btn-success btn-lg">Оформити замовлення</a>
+            <h4>@Localizer["Total Amount"]: @Model.ShoppingCartTotal</h4>
+            <a href="@Url.Action("Checkout", "Order")" class="btn btn-success btn-lg">@Localizer["Checkout"]</a>
         </div>
     }
 </div>

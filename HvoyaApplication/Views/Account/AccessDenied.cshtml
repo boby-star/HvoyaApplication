@@ -1,34 +1,33 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using Microsoft.Extensions.Localization
+@using Microsoft.Extensions.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Відмовлено у доступі";
+    ViewData["Title"] = Localizer["AccessDeniedTitle"];
 }
 
 <div class="text-center mt-5">
-    <h1 class="display-4 text-danger">Доступ заборонено</h1>
-    <p class="lead">Вибачте, але ви не маєте доступу до цієї сторінки</p>
+    <h1 class="display-4 text-danger">@Localizer["AccessDeniedTitle"]</h1>
+    <p class="lead">@Localizer["AccessDeniedMessage"]</p>
 
     @if (User.Identity.IsAuthenticated)
     {
-        <p class="text-muted">
-            Ви увійшли як: <strong>@User.Identity.Name</strong>
-        </p>
+        <p class="text-muted">@Localizer["YouAreLoggedInAs"] <strong>@User.Identity.Name</strong></p>
     }
     else
     {
-        <p class="text-muted">Ви не увійшли в систему. Будь ласка, увійдіть для продовження</p>
+        <p class="text-muted">@Localizer["NotLoggedInMessage"]</p>
     }
 
     <div class="mt-4">
         <a href="@Url.Action("Index", "Home")" class="btn btn-primary btn-lg">
-            Повернутись на головну сторінку
+            @Localizer["ReturnHomePage"]
         </a>
 
         @if (!User.Identity.IsAuthenticated)
         {
             <a href="@Url.Action("Login", "Account")" class="btn btn-secondary btn-lg ml-2">
-                Увійти
+                @Localizer["LoginButton"]
             </a>
         }
     </div>

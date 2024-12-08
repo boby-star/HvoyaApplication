@@ -1,57 +1,54 @@
 ﻿@model HvoyaApplication.Models.Dessert
+@using Microsoft.Extensions.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "Редагувати десерт";
+    ViewData["Title"] = Localizer["EditDessert"];
 }
 
 <div class="container mt-5">
-    <h2>@ViewData["Title"]</h2>
+    <h2>@Localizer["EditDessert"]</h2>
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <form asp-action="EditDessert" method="post">
         @Html.AntiForgeryToken()
         <input type="hidden" asp-for="DessertId" />
         <div class="mb-3">
-            <label asp-for="Name" class="form-label"></label>
+            <label asp-for="Name" class="form-label">@Localizer["DessertName"]</label>
             <input asp-for="Name" class="form-control" />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
         <div class="mb-3">
-            <label asp-for="Description" class="form-label"></label>
+            <label asp-for="Description" class="form-label">@Localizer["Description"]</label>
             <textarea asp-for="Description" class="form-control" rows="3"></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
         <div class="mb-3">
-            <label asp-for="Price" class="form-label"></label>
+            <label asp-for="Price" class="form-label">@Localizer["Price"]</label>
             <input asp-for="Price" class="form-control" type="number" min="1" />
             <span asp-validation-for="Price" class="text-danger"></span>
         </div>
         <div class="mb-3">
-            <label asp-for="CategoryId" class="form-label"></label>
+            <label asp-for="CategoryId" class="form-label">@Localizer["Category"]</label>
             <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.CategoryList">
-                <option value="">Виберіть категорію</option>
+                <option value="">@Localizer["SelectCategory"]</option>
             </select>
             <span asp-validation-for="CategoryId" class="text-danger"></span>
         </div>
         <div class="mb-3">
-            <label asp-for="ImageUrl" class="form-label"></label>
+            <label asp-for="ImageUrl" class="form-label">@Localizer["ImageURL"]</label>
             <input asp-for="ImageUrl" class="form-control" />
             <span asp-validation-for="ImageUrl" class="text-danger"></span>
             @if (!string.IsNullOrEmpty(Model.ImageUrl))
             {
                 <img src="@Model.ImageUrl" alt="@Model.Name" class="img-thumbnail mt-2" style="max-width: 200px;" />
             }
-            <div class="form-text">Введіть відносний шлях до зображення, наприклад: /img/назва_файлу.jpg</div>
+            <div class="form-text">@Localizer["EnterValidImagePath"]</div>
         </div>
         <div class="mb-3 form-check">
             <input asp-for="IsAvailable" class="form-check-input" type="checkbox" />
-            <label asp-for="IsAvailable" class="form-check-label"></label>
+            <label asp-for="IsAvailable" class="form-check-label">@Localizer["Available"]</label>
         </div>
-        <button type="submit" class="btn btn-success">Зберегти</button>
+        <button type="submit" class="btn btn-success">@Localizer["Save"]</button>
     </form>
 </div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}

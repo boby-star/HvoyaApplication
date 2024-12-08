@@ -6,8 +6,10 @@ using HvoyaApplication.Models.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using HvoyaApplication.Utilities;
+using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,8 +28,6 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
-builder.Services.AddHttpContextAccessor();
-builder.Logging.AddConsole();
 builder.Services.AddScoped<IDessertRepository, DessertRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
@@ -35,11 +35,34 @@ builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
+builder.Services.AddControllersWithViews()
+    .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+    .AddDataAnnotationsLocalization();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
+
+var supportedCultures = new[]
+{
+    new CultureInfo("uk-UA"),
+    new CultureInfo("en-US")
+};
+
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture("uk-UA"),
+    SupportedCultures = supportedCultures, 
+    SupportedUICultures = supportedCultures, 
+    RequestCultureProviders = new List<IRequestCultureProvider>
+    {
+        new QueryStringRequestCultureProvider(),
+        new CookieRequestCultureProvider(),
+        new AcceptLanguageHeaderRequestCultureProvider() 
+    }
+});
 
 using (var scope = app.Services.CreateScope())
 {
@@ -52,7 +75,7 @@ using (var scope = app.Services.CreateScope())
     catch (Exception ex)
     {
         var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "Помилка під час створення ролей адміністратора.");
+        logger.LogError(ex, "Error while creating admin roles.");
     }
 }
 
@@ -64,6 +87,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();

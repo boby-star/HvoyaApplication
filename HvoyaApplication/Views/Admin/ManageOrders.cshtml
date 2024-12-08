@@ -1,10 +1,14 @@
 ﻿@model IEnumerable<HvoyaApplication.Models.Order>
+@using Microsoft.Extensions.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Обробка замовлень";
+    ViewData["Title"] = Localizer["ManageOrders"];
 }
 
 <div class="container mt-5">
-    <h2>@ViewData["Title"]</h2>
+    <h2>@Localizer["ManageOrders"]</h2>
     @if (TempData["SuccessMessage"] != null)
     {
         <div class="alert alert-success">@TempData["SuccessMessage"]</div>
@@ -12,13 +16,13 @@
     <table class="table table-bordered table-hover">
         <thead class="table-light">
             <tr>
-                <th>Ім'я</th>
-                <th>Адреса</th>
-                <th>Телефон</th>
-                <th>Дата</th>
-                <th>Сума</th>
-                <th>Статус</th>
-                <th>Дії</th>
+                <th>@Localizer["FullName"]</th>
+                <th>@Localizer["Address"]</th>
+                <th>@Localizer["PhoneNumber"]</th>
+                <th>@Localizer["OrderDate"]</th>
+                <th>@Localizer["OrderTotal"]</th>
+                <th>@Localizer["OrderStatus"]</th>
+                <th>@Localizer["Actions"]</th>
             </tr>
         </thead>
         <tbody>
@@ -35,18 +39,20 @@
                             @Html.AntiForgeryToken()
                             <input type="hidden" name="orderId" value="@order.OrderId" />
                             <select name="newStatus" class="form-select form-select-sm d-inline w-auto">
-                                <option value="Очікує замовлення" selected="@(order.Status == "Очікує замовлення")">Очікує замовлення</option>
-                                <option value="Виконано" selected="@(order.Status == "Виконано")">Виконано</option>
-                                <option value="Скасовано" selected="@(order.Status == "Скасовано")">Скасовано</option>
+                                <option value="Pending" selected="@(order.Status == "Pending")">@Localizer["Pending"]</option>
+                                <option value="Completed" selected="@(order.Status == "Completed")">@Localizer["Completed"]</option>
+                                <option value="Cancelled" selected="@(order.Status == "Cancelled")">@Localizer["Cancelled"]</option>
                             </select>
-                            <button type="submit" class="btn btn-primary btn-sm">Зберегти</button>
+                            <button type="submit" class="btn btn-primary btn-sm">@Localizer["Save"]</button>
                         </form>
                     </td>
                     <td>
                         <form asp-action="DeleteOrder" method="post" class="d-inline">
                             @Html.AntiForgeryToken()
                             <input type="hidden" name="orderId" value="@order.OrderId" />
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Ви впевнені, що хочете видалити це замовлення?');">Видалити</button>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('@Localizer["AreYouSureDeleteOrder"]');">
+                                @Localizer["Delete"]
+                            </button>
                         </form>
                     </td>
                 </tr>
